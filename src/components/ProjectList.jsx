@@ -1,19 +1,18 @@
 import React from 'react';
+import styles from './ProjectList.module.css';
 import ProjectItem from './ProjectItem';
 
 function ProjectList({ projects }) {
   return (
-    <div className="project-list">
-      {projects.length === 0 ? (
-        <p>No projects.</p>
-      ) : (
+    <div className={styles.projectList}>
+      {projects.length > 0 ? (
         projects.map((project) => (
-          <ProjectItem
-            key={project.id}
-            title={project.title}
-            description={project.description}
-          />
+          <div key={project.id} className={styles.projectItem}>
+            <ProjectItem project={project} />
+          </div>
         ))
+      ) : (
+        <p>No projects.</p>
       )}
     </div>
   );

@@ -1,58 +1,58 @@
 import React, { useState } from 'react';
+import styles from './AddProjectForm.module.css';
+import { v4 as uuidv4 } from 'uuid';
 
 function AddProjectForm({ onAddProject }) {
+  // Local state to track form inputs
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic validation
+    // Makes sure the fields are not empty
     if (!title.trim() || !description.trim()) {
       alert('Please fill in both fields.');
       return;
     }
 
+    // Generate unique ID for new project
     const newProject = {
-      id: Date.now(), // temporary unique ID
+      id: uuidv4(),
       title,
       description,
     };
 
+    // Passes new project up to parent component
     onAddProject(newProject);
 
-    // Clear the form
+    // Clear form inputs after submitting
     setTitle('');
     setDescription('');
   };
 
   return (
-    <div className="add-project-form">
-      <h2>Add Project</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="title">Title:</label><br />
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-
-        <div style={{ marginTop: '10px' }}>
-          <label htmlFor="description">Description:</label><br />
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows="3"
-          />
-        </div>
-
-        <button type="submit" style={{ marginTop: '15px' }}>Add</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit} className={styles.formContainer}>
+      <h2 className={styles.heading}>Add Project</h2>
+      <label className={styles.label} htmlFor="title">Title:</label>
+      <input
+        id="title"
+        type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        className={styles.input}
+      />
+      <label className={styles.label} htmlFor="description">Description:</label>
+      <textarea
+        id="description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        className={styles.textarea}
+        rows="3"
+      />
+      <button type="submit" className={styles.button}>Add</button>
+    </form>
   );
 }
 
